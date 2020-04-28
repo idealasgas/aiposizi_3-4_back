@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">School</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <%= link_to 'home', root_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'students', students_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item active">
+        <%= link_to 'teachers', teachers_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'groups', groups_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'classrooms', classrooms_path, class: "nav-link" %>
+      </li>
+    </ul>
+  </div>
+</nav>
+<%= link_to 'Add teacher', new_teacher_path %>
+
+
+<div class="container">
+  <table class="table table-borderless bg-light">
+    <thead>
+      <tr class="table-primary">
+        <th scope="col">name</th>
+        <th scope="col">surname</th>
+        <th scope="col">subject</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teachers.each do |teacher| %>
+        <tr>
+          <td><%= teacher.name %></td>
+          <td><%= teacher.surname %></td>
+          <td><%= teacher.subject %></td>
+          <td><%= link_to 'Edit', edit_teacher_path(teacher) %></td>
+          <td><%= link_to 'Fire', teacher_path(teacher),
+                  method: :delete,
+                  data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
