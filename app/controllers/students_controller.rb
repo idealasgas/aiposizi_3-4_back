@@ -8,7 +8,7 @@ class StudentsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: api_students }
      end
   end
@@ -24,10 +24,16 @@ class StudentsController < ApplicationController
     end
 
     if student.errors.blank?
-      redirect_to students_path
+      respond_to do |format|
+        format.html { redirect_to students_path }
+        format.json { render json: {success: true} }
+      end
     else
       flash[:errors] = student.errors
-      redirect_to new_student_path
+      respond_to do |format|
+        format.html { redirect_to new_student_path }
+        format.json { render json: {errors: student.errors} }
+      end
     end
   end
 
@@ -53,10 +59,16 @@ class StudentsController < ApplicationController
     end
 
     if student.errors.blank?
-      redirect_to students_path
+      respond_to do |format|
+        format.html { redirect_to students_path }
+        format.json { render json: {success: true} }
+      end
     else
       flash[:errors] = student.errors
-      redirect_to edit_student_path
+      respond_to do |format|
+        format.html { redirect_to edit_student_path }
+        format.json { render json: {errors: student.errors} }
+      end
     end
   end
 
@@ -64,6 +76,9 @@ class StudentsController < ApplicationController
     student = Student.find(params[:id])
     student.destroy
 
-    redirect_to students_path
+    respond_to do |format|
+      format.html { redirect_to students_path }
+      format.json { render json: {success: true} }
+    end
   end
 end
