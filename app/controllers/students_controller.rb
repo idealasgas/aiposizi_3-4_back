@@ -1,6 +1,16 @@
 class StudentsController < ApplicationController
   def index
     @students = Student.all
+
+    api_students = []
+    @students.each do |student|
+      api_students.push({id: student.id, name: student&.name, surname: student&.surname, group: student&.group&.name})
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: api_students }
+     end
   end
 
   def create
