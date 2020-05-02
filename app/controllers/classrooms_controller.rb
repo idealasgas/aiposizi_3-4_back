@@ -1,6 +1,16 @@
 class ClassroomsController < ApplicationController
   def index
     @classrooms = Classroom.all
+
+    api_classrooms = []
+    @classrooms.each do |classroom|
+      api_classrooms.push({id: classroom.id, number: classroom.number, teacher: "#{classroom&.teacher&.name} #{classroom&.teacher&.surname}", teacher_id: classroom&.teacher&.id})
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: api_classrooms }
+    end
   end
 
   def new
@@ -22,10 +32,16 @@ class ClassroomsController < ApplicationController
     end
 
     if classroom.errors.blank?
-      redirect_to classrooms_path
+      respond_to do |format|
+        format.html { redirect_to classrooms_path }
+        format.json { render json: {success: true} }
+      end
     else
       flash[:errors] = classroom.errors
-      redirect_to new_classroom_path
+      respond_to do |format|
+        format.html { redirect_to new_classroom_path }
+        format.json { render json: {errors: classroom.errors} }
+      end
     end
   end
 
@@ -40,7 +56,7 @@ class ClassroomsController < ApplicationController
     classroom.update(number: parameters[:number])
 
     if !parameters[:teacher_id].blank?
-      teacher = Teacher.find(parameters[:teacher_id])
+      teacher = Teacher.find(parameters[:teacher_id].to_i)
 
       if teacher.classroom.blank?
         classroom.update(teacher: teacher)
@@ -53,10 +69,16 @@ class ClassroomsController < ApplicationController
     end
 
     if classroom.errors.blank?
-      redirect_to classrooms_path
+      respond_to do |format|
+        format.html { redirect_to classrooms_path }
+        format.json { render json: {success: true} }
+      end
     else
       flash[:errors] = classroom.errors
-      redirect_to new_classroom_path
+      respond_to do |format|
+        format.html { redirect_to new_classroom_path }
+        format.json { render json: {errors: classroom.errors} }
+      end
     end
   end
 
