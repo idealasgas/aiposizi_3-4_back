@@ -83,5 +83,12 @@ class ClassroomsController < ApplicationController
   end
 
   def destroy
+    classroom = Classroom.find(params[:id])
+    classroom.destroy
+
+    respond_to do |format|
+      format.html { redirect_to classrooms_path }
+      format.json { render json: {success: true} }
+    end
   end
 end
