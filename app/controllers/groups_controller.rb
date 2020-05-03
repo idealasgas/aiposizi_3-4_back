@@ -1,6 +1,16 @@
 class GroupsController < ApplicationController
   def index
     @groups = Group.all
+
+    api_groups = []
+    @groups.each do |group|
+      api_groups.push({id: group.id, name: group.name, teacher: "#{group&.teacher&.name} #{group&.teacher&.surname}", teacher_id: group&.teacher_id})
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: api_groups }
+    end
   end
 
   def new
@@ -22,10 +32,16 @@ class GroupsController < ApplicationController
     end
 
     if group.errors.blank?
-      redirect_to groups_path
+      respond_to do |format|
+        format.html { redirect_to groups_path }
+        format.json { render json: {success: true} }
+      end
     else
       flash[:errors] = group.errors
-      redirect_to new_group_path
+      respond_to do |format|
+        format.html { redirect_to new_group_path }
+        format.json { render json: {erros: group.errors} }
+      end
     end
   end
 
@@ -53,10 +69,16 @@ class GroupsController < ApplicationController
     end
 
     if group.errors.blank?
-      redirect_to groups_path
+      respond_to do |format|
+        format.html { redirect_to groups_path }
+        format.json { render json: {success: true} }
+      end
     else
       flash[:errors] = group.errors
-      redirect_to new_group_path
+      respond_to do |format|
+        format.html { redirect_to new_group_path }
+        format.json { render json: {errors: group.errors} }
+      end
     end
   end
 
@@ -64,10 +86,23 @@ class GroupsController < ApplicationController
     group = Group.find(params[:id])
     group.destroy
 
-    redirect_to groups_path
+    respond_to do |format|
+      format.html { redirect_to groups_path }
+      format.json { render json: {success: true} }
+    end
   end
 
   def show
     @group = Group.find(params[:id])
+
+    api_students = []
+    @group.students.each do |student|
+      api_students << {name: student&.name, surname: student&.name}
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: api_students }
+    end
   end
 end
