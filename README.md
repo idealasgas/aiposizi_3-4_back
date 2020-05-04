@@ -1,24 +1,7 @@
-# README
+## Школа
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Предыдущие выпуски: https://github.com/idealasgas/aiposizi_lab2
 
-Things you may want to cover:
+### Об этой реализации
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Это бэк, сделан на рельсах, [ссылка на фронт](https://github.com/idealasgas/aiposizi_3-4_front).
